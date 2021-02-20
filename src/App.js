@@ -1,26 +1,34 @@
 import React from "react";
-import styled from "styled-components"
+import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
 import "./App.css";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import Chat from "./components/Chat";
+import { useAuthState, userAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./firebase";
 
 function App() {
+  const [user, loading] = useAuthState(auth);
   return (
     <div className="app">
       <Router>
-        <>
-          <Header />
-          <AppBody>
-            <Sidebar />
-            <Switch>
-              <Route path="/" exact>
-                {/* chat */}
-              </Route>
-            </Switch>
-          </AppBody>
-        </>
+        {!user ? (
+          <Login />
+        ) : (
+          <>
+            <Header />
+            <AppBody>
+              <Sidebar />
+              <Switch>
+                <Route path="/" exact>
+                  {/* chat */}
+                  <Chat />
+                </Route>
+              </Switch>
+            </AppBody>
+          </>
+        )}
       </Router>
     </div>
   );
