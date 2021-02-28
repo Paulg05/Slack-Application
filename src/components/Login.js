@@ -1,12 +1,14 @@
 import { Button } from "@material-ui/core";
 import React from "react";
 import styled from "styled-components";
+import { auth, provider } from "../firebase";
 
 function Login() {
-
   const signIn = (e) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+    //uses google provider to allow signin feature
+    auth.signInWithPopup(provider).catch((err) => alert(err.essage));
+  };
 
   return (
     <LoginContainer>
@@ -17,7 +19,7 @@ function Login() {
         />
         <h1>Sign in to Papa Fam</h1>
         <p>React.slack.com</p>
-        <Button type="submit" onClick={signIn} > Sign in with Google</Button>
+        <Button onClick={signIn}> Sign in with Google</Button>
       </LoginInnerContainer>
     </LoginContainer>
   );
@@ -42,5 +44,12 @@ const LoginInnerContainer = styled.div`
     object-fit: contain;
     height: 100px;
     margin-bottom: 40px;
+  }
+
+  > button {
+    margin-top: 50px;
+    color: white;
+    text-transform: inherit !important;
+    background-color: #0a8d48 !important;
   }
 `;
